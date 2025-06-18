@@ -16,4 +16,7 @@ public class Userr {
     @GeneratedValue
     private int id;
     private String username;
+    private String lastname;
+    private String email;
+    private String password;
 }

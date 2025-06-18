@@ -24,9 +24,7 @@ services:
       retries: 5
 
   spring-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: maven:3.9.4-eclipse-temurin-21  # Use Maven image for dev
     container_name: springboot-app
     restart: always
     depends_on:
@@ -34,6 +32,11 @@ services:
         condition: service_healthy
     ports:
       - "8084:8080"
+    volumes:
+      - ./:/app      # Mount local source code to /app in container
+      - ~/.m2:/root/.m2  # (optional) cache Maven repo to speed up builds
+    working_dir: /app
+    command: mvn spring-boot:run   # run app directly
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/portfolio
       SPRING_DATASOURCE_USERNAME: user1
